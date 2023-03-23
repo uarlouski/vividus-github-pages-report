@@ -13,6 +13,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
     - name: Checkout (including submodules)
       uses: actions/checkout@v3
@@ -37,3 +40,12 @@ jobs:
       with:
         name: REST API tests report
         path: output/reports/allure
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: output/reports/allure
+        branch: gh-allure-reports
+        target-folder: ${{ github.sha }}
+        force: false
+        commit-message: Report ${{ github.sha }}
